@@ -6,4 +6,5 @@ public class ZombieData : ScriptableObject
     public float maxHp;
     public float damage;
     public float speed;
+    public int Score;
 }

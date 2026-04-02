@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class ZombieSpawner : MonoBehaviour
 {
-    //public GameManager gameManager;
+    public GameManager gameManager;
 
     public Zombie[] prefabs;
 
@@ -82,8 +82,8 @@ public class ZombieSpawner : MonoBehaviour
         zombies.Add(zombie);
         zombie.gameObject.SetActive(true);
 
+        zombie.OnDead.AddListener(() => gameManager.AddScore(zombie.Score));
         zombie.OnDead.AddListener(() => zombies.Remove(zombie));
-        //zombie.OnDead.AddListener(() => gameManager.AddScore(100));
         //zombie.OnDead.AddListener(() => uIManager.SetWaveInfo(wave, zombies.Count));
         zombie.OnDead.AddListener(() => Destroy(zombie.gameObject, 5f));
     }

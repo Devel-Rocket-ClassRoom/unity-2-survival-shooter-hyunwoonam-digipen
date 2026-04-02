@@ -29,6 +29,8 @@ public class Zombie : LivingEntity
     public float attackInterval = 0.5f;
     private float lastAttackTime = 0f;
 
+    public int Score;
+
     private float deathTime;
 
     private float damage;
@@ -88,6 +90,8 @@ public class Zombie : LivingEntity
         startingHealth = zombieData.maxHp;
         damage = zombieData.damage;
         agent.speed = zombieData.speed;
+
+        Score = zombieData.Score;
 
         //gameObject.SetActive(true);
     }

@@ -3,7 +3,7 @@ using UnityEngine.UI;
 
 public class PlayerHealth : LivingEntity
 {
-    //public Image uiHealth;
+    public Slider healthSlider;
 
     public AudioClip deathClip;
     public AudioClip hitClip;
@@ -13,6 +13,10 @@ public class PlayerHealth : LivingEntity
 
     private PlayerMovement playerMovement;
     private PlayerShooter playerShooter;
+
+    public Image damageScreen;
+    public Color flashColor = new Color(1f, 0f, 0f, 0.5f);
+    private bool isDamage = false;
 
     private void Awake()
     {
@@ -26,8 +30,11 @@ public class PlayerHealth : LivingEntity
     {
         base.OnEnable();
 
-        //uiHealth.gameObject.SetActive(true);
-        //uiHealth.fillAmount = 1f;
+        if (healthSlider != null)
+        {
+            healthSlider.maxValue = startingHealth; 
+            healthSlider.value = Health;            
+        }
 
         playerMovement.enabled = true;
         playerShooter.enabled = true;
@@ -36,7 +43,22 @@ public class PlayerHealth : LivingEntity
 
     public void Update()
     {
-        //uiHealth.fillAmount = Health / startingHealth;
+        if (!IsDead)
+        {
+            if (damageScreen != null)
+            {
+                if (isDamage)
+                {
+                    damageScreen.color = flashColor;
+                }
+                else
+                {
+                    damageScreen.color = Color.Lerp(damageScreen.color, Color.clear, 5f * Time.deltaTime);
+                }
+            }
+
+            isDamage = false;
+        }
     }
 
     private void OnTriggerEnter(Collider other)
@@ -58,16 +80,22 @@ public class PlayerHealth : LivingEntity
 
         base.OnDamage(damage, hitPoint, hitNormal);
 
+        isDamage = true;
 
-
-        //uiHealth.fillAmount = Health / startingHealth;
+        if (healthSlider != null)
+        {
+            healthSlider.value = Health;
+        }
     }
 
     public override void OnHeal(float add)
     {
         base.OnHeal(add);
 
-        //uiHealth.fillAmount = Health / startingHealth;
+        if (healthSlider != null)
+        {
+            healthSlider.value = Health;
+        }
     }
 
     public override void Die()
@@ -77,7 +105,7 @@ public class PlayerHealth : LivingEntity
 
         base.Die();
 
-        //uiHealth.gameObject.SetActive(false);
+        damageScreen.color = new Color(1f, 0f, 0f, 0.01f);
 
         playerAudioSource.PlayOneShot(deathClip);
         playerAnimator.SetTrigger("Die");
