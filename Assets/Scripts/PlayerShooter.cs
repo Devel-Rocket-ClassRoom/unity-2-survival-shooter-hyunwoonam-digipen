@@ -1,4 +1,6 @@
+using Unity.VisualScripting.Antlr3.Runtime.Misc;
 using UnityEngine;
+using System.Collections;
 
 public class PlayerShooter : MonoBehaviour
 {
@@ -6,9 +8,11 @@ public class PlayerShooter : MonoBehaviour
 
     private PlayerInput playerInput;
 
+
     private void Awake()
     {
         playerInput = GetComponent<PlayerInput>();
+
     }
 
     private void Update()

@@ -30,7 +30,7 @@ public class PlayerMovement : MonoBehaviour
 
     private void FixedUpdate()
     {
-        Vector3 moveDirection = (transform.forward * playerInput.Vertical) + (transform.right * playerInput.Horizontal);
+        Vector3 moveDirection = (Vector3.forward * playerInput.Vertical) + (Vector3.right * playerInput.Horizontal);
 
         if (moveDirection.magnitude > 1f)
         {
